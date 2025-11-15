@@ -1,0 +1,33 @@
+.movies-container {
+    padding: 2rem;
+}
+
+.movies-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.movie-title {
+    margin: 0 0 0.75rem 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+  
+.movie-director,
+.movie-release-date {
+    margin: 0.5rem 0;
+    color: #666;
+    font-size: 1rem;
+}
+
+.no-results-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #666;
+}
