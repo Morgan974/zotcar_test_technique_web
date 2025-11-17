@@ -1,5 +1,7 @@
 import { MovieInterface } from "../Interfaces/MovieInterface";
 
+// Get API URL from environment variable or use default
+// IMPORTANT: Set REACT_APP_API_URL in Vercel environment variables to: https://zotcar-test-technique-app.onrender.com
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
 class ApiService {
