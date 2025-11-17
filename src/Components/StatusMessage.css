@@ -1,0 +1,13 @@
+.status-message {
+    padding: var(--spacing-xl);
+    font-size: 1.2rem;
+}
+
+.status-message.loading {
+    color: var(--color-text-light);
+}
+
+.status-message.error {
+    color: var(--color-danger);
+}
+

@@ -6,7 +6,7 @@ class ApiService {
     private baseUrl: string;
 
     constructor() {
-        this.baseUrl = `${API_URL}/api/watched-movies`;
+        this.baseUrl = API_URL + '/api/watched-movies';
     }
 
     async getAllWatchedMovies(
@@ -32,26 +32,34 @@ class ApiService {
                     params.append('director', filters.director);
                 }
                 if (filters.releaseDate) {
-                    params.append('releaseDate', filters.releaseDate);
+                    const year = filters.releaseDate.length === 4 
+                        ? filters.releaseDate 
+                        : filters.releaseDate.split('-')[0];
+                    params.append('year', year);
                 }
             }
     
-            const response = await fetch(`${this.baseUrl}?${params.toString()}`, {
+            const url = this.baseUrl + '?' + params.toString();
+            const response = await fetch(url, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                mode: 'cors',
             });
     
             if (!response.ok) {
                 const errorData = await response.json().catch(() => ({}));
-                throw new Error(errorData.error || `Erreur HTTP: ${response.status}`);
+                throw new Error(errorData.error || 'Erreur HTTP: ' + response.status);
             }
     
             const data: MovieInterface[] = await response.json();
             return data;
         } catch (error: unknown) {
             console.error('Erreur lors de la récupération des films déjà vus:', error);
+            if (error instanceof TypeError && error.message === 'Failed to fetch') {
+                throw new Error('Impossible de se connecter à l\'API. Vérifiez que le backend est démarré sur ' + API_URL);
+            }
             throw error;
         }
     }
@@ -76,9 +84,9 @@ class ApiService {
                     throw new Error('Ce film est déjà dans la liste des "déjà vus"');
                 }
                 const errorData = await response.json().catch(() => ({}));
-                throw new Error(errorData.error || `Erreur HTTP: ${response.status}`);
+                throw new Error(errorData.error || 'Erreur HTTP: ' + response.status);
             }
-    
+
             const data: MovieInterface = await response.json();
             return data;
         } catch (error: unknown) {
@@ -89,7 +97,8 @@ class ApiService {
 
     async removeWatchedMovie(idMovie: string): Promise<void> {
         try {
-            const response = await fetch(`${this.baseUrl}/${idMovie}`, {
+            const url = this.baseUrl + '/' + idMovie;
+            const response = await fetch(url, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -100,7 +109,7 @@ class ApiService {
                 if (response.status === 404) {
                     throw new Error('Film non trouvé');
                 }
-                throw new Error(`Erreur HTTP: ${response.status}`);
+                throw new Error('Erreur HTTP: ' + response.status);
             }
         } catch (error: unknown) {
             console.error('Erreur lors de la suppression du film:', error);
@@ -110,7 +119,7 @@ class ApiService {
 
     async getWatchedMovie(idMovie: string): Promise<MovieInterface> {
         try {
-            const response = await fetch(`${this.baseUrl}/${idMovie}`, {
+            const response = await fetch(this.baseUrl + '/' + idMovie, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -121,7 +130,7 @@ class ApiService {
                 if (response.status === 404) {
                     throw new Error('Film non trouvé');
                 }
-                throw new Error(`Erreur HTTP: ${response.status}`);
+                throw new Error('Erreur HTTP: ' + response.status);
             }
     
             const data: MovieInterface = await response.json();

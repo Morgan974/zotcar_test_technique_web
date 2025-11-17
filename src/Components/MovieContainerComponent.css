@@ -1,33 +1,69 @@
 .movies-container {
-    padding: 2rem;
+    padding: var(--spacing-xl);
 }
 
-.movies-list {
+.movies-table {
+    width: 100%;
     display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
+    flex-direction: column;
+    gap: var(--spacing-xs);
 }
 
-.movie-title {
-    margin: 0 0 0.75rem 0;
-    font-size: 1.5rem;
+.movies-table-header {
+    display: grid;
+    grid-template-columns: 2fr 2fr 1fr 2fr;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md) var(--spacing-lg);
+    background-color: var(--color-bg-gray);
+    border-radius: var(--border-radius-md);
     font-weight: 600;
-    color: #1a1a1a;
+    color: var(--color-text);
 }
-  
-.movie-director,
-.movie-release-date {
-    margin: 0.5rem 0;
-    color: #666;
-    font-size: 1rem;
+
+.movies-table-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.movies-table-row {
+    display: grid;
+    grid-template-columns: 2fr 2fr 1fr 2fr;
+    gap: var(--spacing-md);
+    align-items: center;
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.movies-table-row:hover {
+    background-color: var(--color-bg-light);
+}
+
+.movies-table-cell {
+    display: flex;
+    align-items: center;
+}
+
+.movies-table-cell.header-cell {
+    font-weight: 600;
+    color: var(--color-text-dark);
+}
+
+.movies-table-cell.cell-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--color-text-dark);
+}
+
+.movie-buttons {
+    display: flex;
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
 }
 
 .no-results-text {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+    padding: var(--spacing-xl);
     font-size: 1.2rem;
     font-weight: 600;
-    color: #666;
+    color: var(--color-text-light);
 }

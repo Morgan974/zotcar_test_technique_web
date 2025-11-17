@@ -1,6 +1,6 @@
-import React, { ReactNode, createContext, useContext, useEffect, useState } from "react";
-import { MovieInterface } from "../Interfaces/MovieInterface";
-import { apiService } from "../Services/ApiService";
+import React, { ReactNode, createContext, useContext, useEffect, useState } from 'react';
+import { MovieInterface } from '../Interfaces/MovieInterface';
+import { apiService } from '../Services/ApiService';
 
 interface WatchedContextType {
     watchedMovies: MovieInterface[];
@@ -19,9 +19,9 @@ interface WatchedContextType {
 const WatchedContext = createContext<WatchedContextType | undefined>(undefined);
 
 export const useWatched = (): WatchedContextType => {
-    const context: WatchedContextType | undefined = useContext<WatchedContextType | undefined>(WatchedContext);
+    const context = useContext(WatchedContext);
     if (!context) {
-      throw new Error('useWatched must be used within a WatchedProvider');
+        throw new Error('useWatched must be used within a WatchedProvider');
     }
     return context;
 };
@@ -32,7 +32,7 @@ interface WatchedProviderProps {
 
 export const WatchedProvider = ({ children }: WatchedProviderProps): React.ReactElement => {
     const [watchedMovies, setWatchedMovies] = useState<MovieInterface[]>([]);
-    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
@@ -41,14 +41,13 @@ export const WatchedProvider = ({ children }: WatchedProviderProps): React.React
     
     const addToWatched = async (movie: MovieInterface): Promise<void> => {
         try {
-          setError(null);
-          await apiService.addWatchedMovie(movie);
-          // Recharger la liste complète depuis l'API pour garantir la synchronisation
-          await refreshWatchedMovies();
+            setError(null);
+            await apiService.addWatchedMovie(movie);
+            await refreshWatchedMovies();
         } catch (err: unknown) {
-          const errorMessage: string = err instanceof Error ? err.message : 'Erreur lors de l\'ajout du film';
-          setError(errorMessage);
-          throw err;
+            const errorMessage: string = err instanceof Error ? err.message : 'Erreur lors de l\'ajout du film';
+            setError(errorMessage);
+            throw err;
         }
     };
 
@@ -56,7 +55,6 @@ export const WatchedProvider = ({ children }: WatchedProviderProps): React.React
         try {
             setError(null);
             await apiService.removeWatchedMovie(idMovie);
-            // Recharger la liste complète depuis l'API pour garantir la synchronisation
             await refreshWatchedMovies();
         } catch (err: unknown) {
             const errorMessage: string = err instanceof Error ? err.message : 'Erreur lors de la suppression du film';

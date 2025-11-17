@@ -1,6 +1,6 @@
 import React from 'react';
-import "./HeaderComponent.css";
 import { Link } from 'react-router-dom';
+import './HeaderComponent.css';
 
 interface HeaderProps {
     link : string;
@@ -12,8 +12,7 @@ const HeaderComponent = ({
     link,
     title,
     buttonText
-  }: HeaderProps): React.ReactElement => {
-
+}: HeaderProps): React.ReactElement => {
     return (
         <header className="header">
             <h1>{title}</h1>

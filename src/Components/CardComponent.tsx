@@ -3,13 +3,15 @@ import './CardComponent.css';
 
 interface CardComponentProps {
     children : React.ReactNode;
+    className?: string;
 }
 
 const CardComponent = ({
-    children
+    children,
+    className
 }: CardComponentProps): React.ReactElement => {
     return (
-        <div className="card">
+        <div className={'card' + (className ? ' ' + className : '')}>
             {children}
         </div>
     );
